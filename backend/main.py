@@ -43,22 +43,5 @@ async def debug_key():
     return {"has_key": bool(k), "len": len(k), "last4": k[-4:] if k else ""}
 
 
-from pydantic import BaseModel
-from erlc import run_command, get_server_info, get_players, get_killlogs, get_staff, get_modcalls
 
-class AnnounceBody(BaseModel):
-    message: str
-
-class PMBody(BaseModel):
-    player: str   # Roblox username
-    message: str
-
-@app.post("/api/announce")
-async def api_announce(body: AnnounceBody):
-    # :h = server-wide announcement
-    return await run_command(f":h {body.message}")
-
-@app.post("/api/pm")
-async def api_pm(body: PMBody):
-    return await run_command(f":pm {body.player} {body.message}")
 
